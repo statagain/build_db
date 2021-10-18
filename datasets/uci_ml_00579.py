@@ -1,4 +1,3 @@
-from pathlib import Path
 import pandas as pd
 from .core import get_working_dir, Dataset
 
@@ -29,33 +28,29 @@ def load_MI_complications():
     desc_file = dataset_dir / f'{dataset_id}.desc'
     data_file = dataset_dir / f'{dataset_id}.data'
     # Get features from description
-    feature = {}
+    features = {}
     with open(desc_file, 'r') as f:
         dataset_desc = f.read()
-        in_decode_area = False
-        for line in dataset_desc.splitlines():
-            if line == 'List of attributes':
-                in_decode_area = True
-            elif line.startswith('0: unknown (alive)'):
-                in_decode_area = False
-            if in_decode_area:
-                lsplits = line.split('(')
-                if len(lsplits) > 1:
-                    if any(lsplits[-1].startswith(unit) for unit in units):
-                        # last braketed token is a unit, not feature name
-                        rsplits = lsplits[-2].split(')')
-                    else:
-                        rsplits = lsplits[-1].split(')')
-                    if len(rsplits) > 1:
-                        name = rsplits[0]
-                        if ' ' not in name:
-                            feature[name] = ''.join(line.split('.')[1:]).strip()
+    in_decode_area = False
+    for line in dataset_desc.splitlines():
+        if line == 'List of attributes':
+            in_decode_area = True
+        elif line.startswith('0: unknown (alive)'):
+            in_decode_area = False
+        if in_decode_area:
+            lsplits = line.split('(')
+            if len(lsplits) > 1:
+                if any(lsplits[-1].startswith(unit) for unit in units):
+                    # last braketed token is a unit, not feature name
+                    rsplits = lsplits[-2].split(')')
+                else:
+                    rsplits = lsplits[-1].split(')')
+                if len(rsplits) > 1:
+                    name = rsplits[0]
+                    if ' ' not in name:
+                        features[name] = ''.join(line.split('.')[1:]).strip()
     # Load data
-    df = pd.read_csv(data_file, sep=',', header=None, names=feature,
+    df = pd.read_csv(data_file, sep=',', header=None, names=features,
                      na_values='?')
     # Build and return Dataset
-    dataset_args = dataset_info.copy()
-    dataset_args['features'] = feature
-    dataset_args['data'] = df
-    return Dataset(**dataset_args)
-
+    return Dataset(**dataset_info, features=features, data=df)
