@@ -1,8 +1,9 @@
+from pathlib import Path
 from inspect import getmembers, isfunction
 import sqlite3
 import datasets
 
-DB_PATH = 'statagain.db'
+DB_PATH = Path('target') / 'statagain.db'
 
 if __name__ == '__main__':
     loaders = [func for name, func in getmembers(datasets, isfunction)
