@@ -5,10 +5,16 @@ from .sql import CREATE_DATASET_DDL, CREATE_FEATURE_DDL
 
 
 def get_working_dir():
+    """Returns full path to the datasets directory"""
     return Path(package_top).parent
 
 
 class Dataset:
+    """Dataset data, metadata and database load code.
+
+    Holds dataset info, feature descriptions, and data ready to be flushed
+    to sqlite database. Returned by load_... dataset-specific function.
+    """
     def __init__(
             self,
             id_: str,
@@ -34,6 +40,7 @@ class Dataset:
         con.execute(f'DROP TABLE IF EXISTS {self.id}')
 
     def to_sql(self, con):
+        """Flushes metadata and data to the database."""
         dataset_dml = 'INSERT INTO dataset VALUES (?, ?, ?, ?, ?, ?)'
         dataset_values = (self.id, self.short_name, self.name,
                           self.url, self.attribution, self.desc)
@@ -49,5 +56,6 @@ class Dataset:
 
 
 def init_db(con):
+    """Creates database schema."""
     con.execute(CREATE_DATASET_DDL)
     con.execute(CREATE_FEATURE_DDL)
