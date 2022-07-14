@@ -15,5 +15,5 @@ if __name__ == '__main__':
     for loader in loaders:
         dataset = loader()
         dataset.to_sql(con)
-        print(f"Loaded dataset: '{dataset.short_name}'.")
+        print(f"Loaded dataset ID: '{dataset.id}'.")
     con.close()

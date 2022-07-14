@@ -18,19 +18,19 @@ class Dataset:
     def __init__(
             self,
             id_: str,
-            short_name: str,
             name: str,
+            title: str,
             url: str,
             attribution: str,
-            desc: str,
+            description: str,
             features: dict,
             data=None):
         self.id = id_
-        self.short_name = short_name
         self.name = name
+        self.title = title
         self.url = url
         self.attribution = attribution
-        self.desc = desc
+        self.description = description
         self.features = features
         self.data = data
 
@@ -42,17 +42,18 @@ class Dataset:
     def to_sql(self, con):
         """Flushes metadata and data to the database."""
         dataset_dml = 'INSERT INTO dataset VALUES (?, ?, ?, ?, ?, ?)'
-        dataset_values = (self.id, self.short_name, self.name,
-                          self.url, self.attribution, self.desc)
+        dataset_values = (self.id, self.name, self.title,
+                          self.url, self.attribution, self.description)
         feature_dml = 'INSERT INTO feature VALUES (?, ?, ?)'
-        feature_values = [(self.id, name, desc) for name, desc in
+        feature_values = [(self.id, name, description)
+                          for name, description in
                           self.features.items()]
         self._delete_from_sql(con)
         con.execute(dataset_dml, dataset_values)
         con.executemany(feature_dml, feature_values)
         con.commit()
         if isinstance(self.data, pd.DataFrame):
-            self.data.to_sql(self.id, con, index=False)
+            self.data.to_sql(self.name, con, index=False)
 
 
 def init_db(con):

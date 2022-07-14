@@ -3,21 +3,21 @@ from .core import get_working_dir, Dataset
 
 dataset_info = {
     'id_': 'UCI_ML_00579',
-    'short_name': 'MI_complications',
-    'name': 'Myocardial infarction complications Data Set',
-    'url': 'https://archive.ics.uci.edu/ml/datasets/'
-           'Myocardial+infarction+complications',
+    'name': 'mi_complications',
+    'title': 'Myocardial infarction complications Data Set',
+    'url': 'https://archive.ics.uci.edu/ml/datasets/Myocardial+infarction+complications',
     'attribution': 'S.E. Golovenkin, V.A. Shulman, D.A. Rossiev, '
                    'P.A. Shesternya, S.Yu. Nikulina, Yu.V. Orlova: Professor '
                    'V.F. Voino-Yasenetsky Krasnoyarsk State Medical University;'
                    ' A.N. Gorban, E.M. Mirkes: University of Leicester.',
-    'desc': 'The proposed database can be used to solve two practically '
-            'important problems: predicting complications of Myocardial '
-            'Infarction (MI) based on information about the patient '
-            '(i) at the time of admission and '
-            '(ii) on the third day of the hospital period. '
-            'Columns 2-112 can be used as input data for prediction. '
-            'Possible complications (outputs) are listed in columns 113-124.'
+    'description':
+        'The proposed database can be used to solve two practically '
+        'important problems: predicting complications of Myocardial '
+        'Infarction (MI) based on information about the patient '
+        '(i) at the time of admission and '
+        '(ii) on the third day of the hospital period. '
+        'Columns 2-112 can be used as input data for prediction. '
+        'Possible complications (outputs) are listed in columns 113-124.'
 }
 
 
