@@ -24,12 +24,12 @@ def load_dry_beans():
     desc_file = dataset_dir / f'{dataset_id}.desc'
     data_file = dataset_dir / f'{dataset_id}.data'
     # Load data
-    with open(data_file, 'r') as f:
+    with open(data_file, 'r', encoding='UTF-8') as f:
         data, _ = loadarff(f)
     df = pd.DataFrame(data)
     df['Class'] = df['Class'].apply(lambda x: x.decode('ascii'))
     # Get features from description
-    with open(desc_file, 'r') as f:
+    with open(desc_file, 'r', encoding='UTF-8') as f:
         dataset_desc = f.read()
     feature_desc = []
     for line in dataset_desc.splitlines():

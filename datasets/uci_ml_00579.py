@@ -29,7 +29,7 @@ def load_MI_complications():
     data_file = dataset_dir / f'{dataset_id}.data'
     # Get features from description
     features = {}
-    with open(desc_file, 'r') as f:
+    with open(desc_file, 'r', encoding='UTF-8') as f:
         dataset_desc = f.read()
     in_decode_area = False
     for line in dataset_desc.splitlines():
@@ -51,6 +51,6 @@ def load_MI_complications():
                         features[name] = ''.join(line.split('.')[1:]).strip()
     # Load data
     df = pd.read_csv(data_file, sep=',', header=None, names=features,
-                     na_values='?')
+                     na_values='?', encoding='UTF-8')
     # Build and return Dataset
     return Dataset(**dataset_info, features=features, data=df)
