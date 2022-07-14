@@ -36,8 +36,7 @@ def load_diamonds():
     data_file = dataset_dir / f'{dataset_id}.csv'
     # Load data
     df = pd.read_csv(data_file, encoding='UTF-8')
-    correct_column_sequence = list(dataset_features.keys())
     # Build and return Dataset
     return Dataset(**dataset_info,
                    features=dataset_features,
-                   data=df.filter(correct_column_sequence))
+                   data=df.filter(dataset_features))
